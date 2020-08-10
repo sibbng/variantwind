@@ -4,7 +4,8 @@
   "description": "Tailwind Variant Directive for Vue 3",
   "repository": "github:sibbngheid/variantwind",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "author": "sibbngheid",
   "license": "MIT",
   "keywords": [
@@ -14,14 +15,15 @@
     "vue3"
   ],
   "files": [
-    "dist/index.js",
-    "dist/index.esm.js"
+    "dist"
   ],
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c"
+    "dev": "tsup index.ts --dts --format cjs,esm --watch",
+    "build": "tsup index.ts --dts --format cjs,esm"
   },
   "devDependencies": {
-    "rollup": "^2.23.1"
+    "tsup": "^3.4.2",
+    "typescript": "^3.9.7",
+    "vue": "^3.0.0-rc.5"
   }
 }
