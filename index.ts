@@ -62,7 +62,7 @@ export const extractor = (content: string) => {
   const innerMatches =
     content.match(/[^<>"'`\s.(){}[\]#=%]*[^<>"'`\s.(){}[\]#=%:]/g) || []
 
-  return broadMatches.concat(innerMatches, ex)
+  return broadMatches.concat(innerMatches, extract)
 }
 
 export default (app: App, directiveName = 'variantwind') => {
