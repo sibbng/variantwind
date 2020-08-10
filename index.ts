@@ -44,16 +44,15 @@ export const directive: ObjectDirective = {
 }
 
 export const extractor = (content: string) => {
+  let extract = [];
   const match = content.match(/[^<]*[^>]/g)
   
-  if (!match) {
-    return []
+  if (match) {
+    extract = match
+      .map((item) => item.match(/\w*:\{(.*?)\}/g))
+      .filter(isTruthy)
+      .flatMap((classes) => variantwind(classes.join(' ')).trim().split(' '))
   }
-
-  const ex = match
-    .map((item) => item.match(/\w*:\{(.*?)\}/g))
-    .filter(isTruthy)
-    .flatMap((classes) => variantwind(classes.join(' ')).trim().split(' '))
 
   // Capture as liberally as possible, including things like `h-(screen-1.5)`
   const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || []
