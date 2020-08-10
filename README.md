@@ -1,6 +1,6 @@
 <p align='center'>
 <img src="./variantwind.svg">
-<img src="./carbon.svg">
+<img src="https://raw.githubusercontent.com/sibbngheid/variantwind/master/carbon.svg">
 </p>
 <h1 align='center'>
 <samp>variantwind</samp>
