@@ -1,4 +1,5 @@
 import type { App, ObjectDirective } from "vue";
+import mem from "mem";
 
 type Truthy<T> = T extends false | "" | 0 | null | undefined ? never : T;
 
@@ -6,7 +7,7 @@ function isTruthy<T>(value: T): value is Truthy<T> {
   return !!value;
 }
 
-export function variantwind(className: string) {
+export const variantwind = mem((className: string) => {
   let plainClasses = className;
 
   // Array of blocks, e.g. ["lg:{bg-red-500 hover:bg-red-900}"]
@@ -32,7 +33,7 @@ export function variantwind(className: string) {
     .join(" ");
 
   return plainClasses + " " + processedClasses;
-}
+});
 
 export const directive: ObjectDirective = {
   beforeMount(el) {

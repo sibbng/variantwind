@@ -22,6 +22,7 @@
     "build": "tsup index.ts --dts --format cjs,esm"
   },
   "devDependencies": {
+    "mem": "^6.1.0",
     "tsup": "^3.4.2",
     "typescript": "^3.9.7",
     "vue": "^3.0.0-rc.5"
