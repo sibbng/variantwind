@@ -19,7 +19,7 @@ export const variantwind = (className: string) => {
 
       const withVariants = classes
         .replace(/\{|\}/g, "")
-        .replace(" ", " " + variant + ":");
+        .replace(/\s/g, " " + variant + ":");
 
       return withVariants.startsWith(variant)
         ? withVariants
