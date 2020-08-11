@@ -42,18 +42,9 @@ const process = (el: HTMLElement, binding: any) => {
   } else {
     const classes = variantwind(el.className)
       .split(" ")
-      .filter((i: string) => !!i);
+      .filter((i: string) => !!i.trim());
     cache.set(el.className, classes);
     el.classList.add(...classes);
-  }
-  if (cachedBindClasses) {
-    el.classList.add(...cachedBindClasses);
-  } else {
-    const bindClasses = variantwind(binding.value || "")
-      .split(" ")
-      .filter((i: string) => !!i);
-    cache.set(binding.value, bindClasses);
-    el.classList.add(...bindClasses);
   }
 
   if (binding.value !== binding.oldValue) {
@@ -62,10 +53,20 @@ const process = (el: HTMLElement, binding: any) => {
     } else {
       const bindOldClasses = variantwind(binding.oldValue || "")
         .split(" ")
-        .filter((i: string) => !!i);
+        .filter((i: string) => !!i.trim());
       cache.set(binding.oldValue, bindOldClasses);
       el.classList.remove(...bindOldClasses);
     }
+  }
+
+  if (cachedBindClasses) {
+    el.classList.add(...cachedBindClasses);
+  } else {
+    const bindClasses = variantwind(binding.value || "")
+      .split(" ")
+      .filter((i: string) => !!i.trim());
+    cache.set(binding.value, bindClasses);
+    el.classList.add(...bindClasses);
   }
 };
 
