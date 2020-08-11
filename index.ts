@@ -21,7 +21,6 @@ export const variantwind = (className: string) => {
       const withVariants = classes
         .replace(/\{|\}/g, "")
         .replace(/\s/g, " " + variant + ":");
-
       return withVariants.startsWith(variant)
         ? withVariants
         : variant + ":" + withVariants;
@@ -38,13 +37,11 @@ const process = (el: HTMLElement, binding: any) => {
   const cachedBindOldClasses = cache.get(binding.oldValue);
 
   if (cachedClasses) {
-    el.classList.add(...cachedClasses);
+    el.className = cachedClasses;
   } else {
-    const classes = variantwind(el.className)
-      .split(" ")
-      .filter((i: string) => !!i.trim());
+    const classes = variantwind(el.className);
     cache.set(el.className, classes);
-    el.classList.add(...classes);
+    el.className = classes;
   }
 
   if (binding.value !== binding.oldValue) {
