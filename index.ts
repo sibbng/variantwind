@@ -31,13 +31,16 @@ export const variantwind = (className: string) => {
 };
 
 const cache = new Map();
-const process = (el: HTMLElement) => {
-  if (cache.get(el.className)) {
-    el.className = cache.get(el.className);
+const process = (el: HTMLElement, binding: any) => {
+  const classes = `${el.className} ${binding.value}`;
+  const cached = cache.get(classes);
+  if (cached) {
+    el.className = cached;
+  } else {
+    const generated = variantwind(classes);
+    cache.set(classes, generated);
+    el.className = generated;
   }
-  const classes = variantwind(el.className);
-  cache.set(el.className, classes);
-  el.className = classes;
 };
 
 export const directive: ObjectDirective = {
@@ -59,6 +62,10 @@ export const extractor = (content: string) => {
   return broadMatches.concat(innerMatches, extract);
 };
 
-export default (app: App, directiveName = "variantwind") => {
-  app.directive(directiveName, directive);
+export default (app: App, directiveName: string | string[] = "variantwind") => {
+  if (Array.isArray(directiveName)) {
+    directiveName.map((name) => app.directive(name, directive));
+  } else {
+    app.directive(directiveName, directive);
+  }
 };
