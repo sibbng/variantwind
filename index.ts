@@ -32,14 +32,39 @@ export const variantwind = (className: string) => {
 
 const cache = new Map();
 const process = (el: HTMLElement, binding: any) => {
-  const classes = `${el.className} ${binding.value}`;
-  const cached = cache.get(classes);
-  if (cached) {
-    el.className = cached;
+  const cachedClasses = cache.get(el.className);
+  const cachedBindClasses = cache.get(binding.value);
+  const cachedBindOldClasses = cache.get(binding.oldValue);
+
+  if (cachedClasses) {
+    el.classList.add(...cachedClasses);
   } else {
-    const generated = variantwind(classes);
-    cache.set(classes, generated);
-    el.className = generated;
+    const classes = variantwind(el.className)
+      .split(" ")
+      .filter((i: string) => !!i);
+    cache.set(el.className, classes);
+    el.classList.add(...classes);
+  }
+  if (cachedBindClasses) {
+    el.classList.add(...cachedBindClasses);
+  } else {
+    const bindClasses = variantwind(binding.value || "")
+      .split(" ")
+      .filter((i: string) => !!i);
+    cache.set(binding.value, bindClasses);
+    el.classList.add(...bindClasses);
+  }
+
+  if (binding.value !== binding.oldValue) {
+    if (cachedBindOldClasses) {
+      el.classList.remove(...cachedBindOldClasses);
+    } else {
+      const bindOldClasses = variantwind(binding.oldValue || "")
+        .split(" ")
+        .filter((i: string) => !!i);
+      cache.set(binding.oldValue, bindOldClasses);
+      el.classList.remove(...bindOldClasses);
+    }
   }
 };
 
