@@ -102,21 +102,21 @@ export default (
     if (Array.isArray(directives)) {
       directives.map((name) => {
         app.directive(name, directive);
-        app.config.globalProperties[name] = variantwind;
+        app.config.globalProperties["$" + name] = variantwind;
       });
     } else {
       app.directive(directives, directive);
-      app.config.globalProperties[directives] = variantwind;
+      app.config.globalProperties["$" + directives] = variantwind;
     }
   } else {
     if (Array.isArray(directives)) {
       directives.map((name) => {
         app.directive(name, directive2);
-        app.prototype[name] = variantwind;
+        app.prototype["$" + name] = variantwind;
       });
     } else {
       app.directive(directives, directive2);
-      app.prototype[directives] = variantwind;
+      app.prototype["$" + directives] = variantwind;
     }
   }
 };
