@@ -5,13 +5,19 @@
 <h1 align='center'>
 <samp>variantwind</samp>
 </h1>
+
+<p align='center'>
+<img src="https://badgen.net/npm/v/variantwind">
+<img src="https://badgen.net/npm/dt/variantwind">
+<img src="https://badgen.net/bundlephobia/minzip/variantwind">
+</p>
+
 <p align='center'>
 <strong>Most elegant</strong> way to work with <strong>TailwindCSS</strong> variants in Vue
 </p>
 
 <p align='center'>
 Use as <em>directive</em> or <em>binding</em>, supports both Vue 2 & 3, also supports <strong>PurgeCSS</strong>🔥🔥<br><br>
-911 Bytes Gzipped
 </p>
 
 ## Installation
