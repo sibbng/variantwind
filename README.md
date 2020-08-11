@@ -11,7 +11,7 @@
 
 <p align='center'>
 Use as <em>directive</em> or <em>binding</em>, also supports <strong>PurgeCSS</strong>🔥🔥<br><br>
-2.7 kB Gzipped
+644 Bytes Gzipped
 </p>
 
 ## Installation
@@ -31,7 +31,7 @@ import { directive } from "variantwind";
 
 const app = createApp(App);
 
-app.directive(/* directiveName */ "variantwind", directive);
+app.directive("variantwind", directive);
 
 /**
  *  Or register as a Plugin
