@@ -1,4 +1,5 @@
 import type { App, ObjectDirective } from "vue";
+import type { DirectiveOptions, VueConstructor } from "vue2";
 
 const matchBlocks = (val: string) => val.match(/\w*:\{(.*?)\}/g);
 
@@ -73,6 +74,11 @@ export const directive: ObjectDirective = {
   updated: process,
 };
 
+export const directive2: DirectiveOptions = {
+  bind: process,
+  update: process,
+};
+
 export const extractor = (content: string) => {
   const match = variantwind(content);
   const extract = match !== content ? match.split(" ") : [];
@@ -87,10 +93,24 @@ export const extractor = (content: string) => {
   return broadMatches.concat(innerMatches, extract);
 };
 
-export default (app: App, directiveName: string | string[] = "variantwind") => {
+const isVue3 = (app: App | VueConstructor): app is App =>
+  app.version[0] === "3";
+
+export default (
+  app: App | VueConstructor,
+  directiveName: string | string[] = "variantwind"
+) => {
   if (Array.isArray(directiveName)) {
-    directiveName.map((name) => app.directive(name, directive));
+    if (isVue3(app)) {
+      directiveName.map((name) => app.directive(name, directive));
+    } else {
+      directiveName.map((name) => app.directive(name, directive2));
+    }
   } else {
-    app.directive(directiveName, directive);
+    if (isVue3(app)) {
+      app.directive(directiveName, directive);
+    } else {
+      app.directive(directiveName, directive2);
+    }
   }
 };
