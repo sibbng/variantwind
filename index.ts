@@ -4,7 +4,7 @@ import type { DirectiveOptions, VueConstructor } from "vue2";
 const matchBlocks = (val: string) => val.match(/\w*:\{(.*?)\}/g);
 
 export const variantwind = (className: string) => {
-  let plainClasses = className;
+  let plainClasses = className.replace(/\r?\n|\r/g, "");
 
   // Array of blocks, e.g. ["lg:{bg-red-500 hover:bg-red-900}"]
   const blocks = matchBlocks(className);
@@ -21,6 +21,7 @@ export const variantwind = (className: string) => {
       const withVariants = classes
         .replace(/\{|\}/g, "")
         .replace(/\s/g, " " + variant + ":");
+
       return withVariants.startsWith(variant)
         ? withVariants
         : variant + ":" + withVariants;
@@ -50,7 +51,7 @@ const process = (el: HTMLElement, binding: any) => {
     } else {
       const bindOldClasses = variantwind(binding.oldValue || "")
         .split(" ")
-        .filter((i: string) => !!i.trim());
+        .filter((i: string) => !!i);
       cache.set(binding.oldValue, bindOldClasses);
       el.classList.remove(...bindOldClasses);
     }
@@ -61,7 +62,8 @@ const process = (el: HTMLElement, binding: any) => {
   } else {
     const bindClasses = variantwind(binding.value || "")
       .split(" ")
-      .filter((i: string) => !!i.trim());
+      .filter((i: string) => !!i);
+    console.log(bindClasses);
     cache.set(binding.value, bindClasses);
     el.classList.add(...bindClasses);
   }
