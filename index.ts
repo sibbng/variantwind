@@ -96,19 +96,27 @@ const isVue3 = (app: App | VueConstructor): app is App =>
 
 export default (
   app: App | VueConstructor,
-  directiveName: string | string[] = "variantwind"
+  directives: string | string[] = "variantwind"
 ) => {
-  if (Array.isArray(directiveName)) {
-    if (isVue3(app)) {
-      directiveName.map((name) => app.directive(name, directive));
+  if (isVue3(app)) {
+    if (Array.isArray(directives)) {
+      directives.map((name) => {
+        app.directive(name, directive);
+        app.config.globalProperties[name] = variantwind;
+      });
     } else {
-      directiveName.map((name) => app.directive(name, directive2));
+      app.directive(directives, directive);
+      app.config.globalProperties[directives] = variantwind;
     }
   } else {
-    if (isVue3(app)) {
-      app.directive(directiveName, directive);
+    if (Array.isArray(directives)) {
+      directives.map((name) => {
+        app.directive(name, directive2);
+        app.prototype[name] = variantwind;
+      });
     } else {
-      app.directive(directiveName, directive2);
+      app.directive(directives, directive2);
+      app.prototype[directives] = variantwind;
     }
   }
 };
