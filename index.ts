@@ -7,11 +7,13 @@ function isTruthy<T>(value: T): value is Truthy<T> {
   return !!value;
 }
 
+const matchBlocks = (val: string) => val.match(/\w*:\{(.*?)\}/g);
+
 export const variantwind = mem((className: string) => {
   let plainClasses = className;
 
   // Array of blocks, e.g. ["lg:{bg-red-500 hover:bg-red-900}"]
-  const blocks = className.match(/\w*:\{(.*?)\}/g);
+  const blocks = matchBlocks(className);
 
   if (!blocks) {
     return plainClasses;
@@ -45,15 +47,7 @@ export const directive: ObjectDirective = {
 };
 
 export const extractor = (content: string) => {
-  let extract: string[] = [];
-  const match = content.match(/[^<]*[^>]/g);
-
-  if (match) {
-    extract = match
-      .map((item) => item.match(/\w*:\{(.*?)\}/g))
-      .filter(isTruthy)
-      .flatMap((classes) => variantwind(classes.join(" ")).trim().split(" "));
-  }
+  const extract = variantwind(content).split(" ") || [];
 
   // Capture as liberally as possible, including things like `h-(screen-1.5)`
   const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
