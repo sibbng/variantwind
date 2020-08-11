@@ -3,13 +3,13 @@
 <img src="https://raw.githubusercontent.com/sibbngheid/variantwind/master/carbon.svg">
 </p>
 <h1 align='center'>
-<samp>variantwind</samp>
+<center><samp>variantwind</samp></center>
 </h1>
 
 <p align='center'>
-<img src="https://badgen.net/npm/v/variantwind">
-<img src="https://badgen.net/npm/dt/variantwind">
-<img src="https://badgen.net/bundlephobia/minzip/variantwind">
+<a href="https://www.npmjs.com/package/variantwind" target="__blank"><img src="https://badgen.net/npm/v/variantwind"></a>
+<a href="https://www.npmjs.com/package/variantwind" target="__blank"><img src="https://badgen.net/npm/dt/variantwind"></a>
+<a href="https://github.com/sibbngheid/variantwind" target="__blank"><img src="https://badgen.net/bundlephobia/minzip/variantwind"></a>
 </p>
 
 <p align='center'>
@@ -28,30 +28,28 @@ yarn add variantwind
 
 ## Usage
 
-### Directive
-
 ```js
 import { createApp } from "vue";
 import App from "./App.vue";
-import { directive } from "variantwind";
+import Variantwind from "variantwind";
 
 const app = createApp(App);
 
-app.directive("variantwind", directive);
+/**
+ * Directives:  v-variantwind
+ * Methods:     $variantwind
+ */
+app.use(Variantwind, "variantwind");
 
-// You can register it multiple times!
-app.directive("dark", directive);
+/* ===== OR =====*/
 
 /**
- *  Or register as a Plugin
- *  Second argument is optional directive name
+ * Directives:  v-variantwind v-dark
+ * Methods:     $variantwind $dark
  *
- *  import Variantwind from "variantwind";
- *  app.use(Variantwind, "variantwind" );
- *
- *  // To register multiple directives pass array:
- *  app.use(Variantwind, ["variantwind", dark]);
- * */
+ * Note: This plugin doesn't provide dark mode functionality. This is just a use case example.
+ */
+app.use(Variantwind, ["variantwind", "dark"]);
 
 app.mount("#app");
 ```
@@ -72,12 +70,6 @@ app.mount("#app");
   </div>
 
   <div
-    :class="variantwind('w-full bg-red-500 md:{w-1/3 bg-blue-500} lg:{w-1/4 bg-yellow-500 hover:bg-yellow-900}')"
-  >
-    Class binding
-  </div>
-
-  <div
     v-variantwind="'w-full bg-red-500 md:{w-1/3 bg-blue-500} lg:{w-1/4 bg-yellow-500 hover:bg-yellow-900}'"
     v-dark="'dark:{bg-black-900 text-white}'"
   >
@@ -85,8 +77,15 @@ app.mount("#app");
   </div>
 
   <div
+    :class="variantwind('lg:{w-1/4 bg-yellow-500 hover:bg-yellow-900}')"
+    :class="$variantwind('lg:{w-1/4 bg-yellow-500 hover:bg-yellow-900}')"
+  >
+    Local and Global Class binding
+  </div>
+
+  <div
     class="w-full bg-red-500 md:{w-1/3 bg-blue-500}"
-    :class="variantwind('lg:{w-1/4 bg-green-500 hover:bg-green-900}')"
+    :class="$variantwind('lg:{w-1/4 bg-green-500 hover:bg-green-900}')"
     v-variantwind="'xl:{w-1/4 bg-yellow-500 hover:bg-yellow-900}'"
     v-dark="'dark:{bg-black-900 text-white}'"
   >
@@ -98,7 +97,7 @@ app.mount("#app");
   import { variantwind } from "variantwind";
 
   export default {
-    // Pass function to template for class binding usage
+    // Pass function to template for local class binding usage
     methods: { variantwind },
   };
 </script>
