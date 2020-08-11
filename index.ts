@@ -1,12 +1,6 @@
 import type { App, ObjectDirective } from "vue";
 import mem from "mem";
 
-type Truthy<T> = T extends false | "" | 0 | null | undefined ? never : T;
-
-function isTruthy<T>(value: T): value is Truthy<T> {
-  return !!value;
-}
-
 const matchBlocks = (val: string) => val.match(/\w*:\{(.*?)\}/g);
 
 export const variantwind = mem((className: string) => {
@@ -47,7 +41,8 @@ export const directive: ObjectDirective = {
 };
 
 export const extractor = (content: string) => {
-  const extract = variantwind(content).split(" ") || [];
+  const match = variantwind(content);
+  const extract = match !== content ? match.split(" ") : [];
 
   // Capture as liberally as possible, including things like `h-(screen-1.5)`
   const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
