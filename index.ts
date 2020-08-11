@@ -1,9 +1,8 @@
 import type { App, ObjectDirective } from "vue";
-import mem from "mem";
 
 const matchBlocks = (val: string) => val.match(/\w*:\{(.*?)\}/g);
 
-export const variantwind = mem((className: string) => {
+export const variantwind = (className: string) => {
   let plainClasses = className;
 
   // Array of blocks, e.g. ["lg:{bg-red-500 hover:bg-red-900}"]
@@ -29,14 +28,20 @@ export const variantwind = mem((className: string) => {
     .join(" ");
 
   return plainClasses + " " + processedClasses;
-});
+};
+
+const cache = new Map();
 
 export const directive: ObjectDirective = {
   beforeMount(el) {
-    el.className = variantwind(el.className);
+    const classes = variantwind(el.className);
+    cache.set(el.className, classes);
+    el.className = cache.get(el.className) || classes;
   },
   updated(el) {
-    el.className = variantwind(el.className);
+    const classes = variantwind(el.className);
+    cache.set(el.className, classes);
+    el.className = cache.get(el.className) || classes;
   },
 };
 
