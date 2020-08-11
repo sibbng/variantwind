@@ -31,18 +31,18 @@ export const variantwind = (className: string) => {
 };
 
 const cache = new Map();
+const process = (el: HTMLElement) => {
+  if (cache.get(el.className)) {
+    el.className = cache.get(el.className);
+  }
+  const classes = variantwind(el.className);
+  cache.set(el.className, classes);
+  el.className = classes;
+};
 
 export const directive: ObjectDirective = {
-  beforeMount(el) {
-    const classes = variantwind(el.className);
-    cache.set(el.className, classes);
-    el.className = cache.get(el.className) || classes;
-  },
-  updated(el) {
-    const classes = variantwind(el.className);
-    cache.set(el.className, classes);
-    el.className = cache.get(el.className) || classes;
-  },
+  beforeMount: process,
+  updated: process,
 };
 
 export const extractor = (content: string) => {
