@@ -87,9 +87,6 @@ export const directive2: DirectiveOptions = {
 };
 
 export const extractor = (content: string) => {
-  //@ts-ignore
-  const fs = require("fs");
-  console.log(fs.readFile);
   const match = variantwind(content);
   const extract = match !== content ? match.split(" ") : [];
 
@@ -115,7 +112,6 @@ export const extractor = (content: string) => {
       }
     }
   });
-  console.log(directivishClasses);
 
   // Capture as liberally as possible, including things like `h-(screen-1.5)`
   const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
