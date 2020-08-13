@@ -5,7 +5,10 @@ import type { DirectiveBinding as DirectiveBinding2 } from "vue2/types/options";
 const matchBlocks = (val: string) => val.match(/[\w+:]+\{(.*?)\}/g);
 
 export const variantwind = (className: string) => {
-  let plainClasses = className.replace(/\r?\n|\r|\s{2,}/g, "").trim();
+  let plainClasses = className
+    .replace(/\r?\n|\r/g, "")
+    .replace(/\s/g, " ")
+    .trim();
 
   // Array of blocks, e.g. ["lg:{bg-red-500 hover:bg-red-900}"]
   const blocks = matchBlocks(plainClasses);
@@ -84,6 +87,9 @@ export const directive2: DirectiveOptions = {
 };
 
 export const extractor = (content: string) => {
+  //@ts-ignore
+  const fs = require("fs");
+  console.log(fs.readFile);
   const match = variantwind(content);
   const extract = match !== content ? match.split(" ") : [];
 
@@ -109,6 +115,7 @@ export const extractor = (content: string) => {
       }
     }
   });
+  console.log(directivishClasses);
 
   // Capture as liberally as possible, including things like `h-(screen-1.5)`
   const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
