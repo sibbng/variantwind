@@ -1,6 +1,6 @@
 {
   "name": "variantwind",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Tailwind Variant Directive for Vue",
   "repository": "github:sibbngheid/variantwind",
   "main": "dist/index.js",
