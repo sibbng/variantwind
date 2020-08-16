@@ -126,7 +126,7 @@ export const extractor = (content: string) => {
 const isVue3 = (app: App | VueConstructor): app is App =>
   app.version[0] === "3";
 
-export default (
+const Plugin = (
   app: App | VueConstructor,
   directives: string | string[] = "variantwind"
 ) => {
@@ -152,3 +152,8 @@ export default (
     }
   }
 };
+
+export default Plugin
+
+if (typeof window !== 'undefined' && window.Vue)
+  window.Vue.use(Plugin)

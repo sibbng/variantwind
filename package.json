@@ -5,6 +5,7 @@
   "repository": "github:sibbngheid/variantwind",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "browser": "dist/index.global.js",
   "types": "dist/index.d.ts",
   "author": "sibbngheid",
   "license": "MIT",
@@ -18,8 +19,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsup index.ts --dts --format cjs,esm --watch",
-    "build": "tsup index.ts --dts --format cjs,esm"
+    "dev": "tsup index.ts --dts --format cjs,esm,iife --watch",
+    "build": "tsup index.ts --dts --format cjs,esm,iife"
   },
   "devDependencies": {
     "mem": "^6.1.0",
