@@ -23,7 +23,12 @@ Use as <em>directive</em> or <em>binding</em>, supports both Vue 2 & 3, also sup
 ## Installation
 
 ```sh
-yarn add variantwind
+yarn add variantwind # or `npm i variantwind`
+```
+
+### CDN
+```html
+<script src"https://unpkg.com/variantwind"></script>
 ```
 
 ## Usage
