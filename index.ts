@@ -2,32 +2,45 @@ import type { App, ObjectDirective, DirectiveBinding } from "vue";
 import type { DirectiveOptions, VueConstructor } from "vue2";
 import type { DirectiveBinding as DirectiveBinding2 } from "vue2/types/options";
 
-const matchBlocks = (val: string) => val.match(/[\w+:]+\{(.*?)\}/g);
+const variantBloksRE = /[\w]+:\{(.+?)\}/g
+const matchBlocks = (val: string) => val.match(variantBloksRE)
+
+const removeLinesRE = /\r?\n|\r/g
+const reduceSpacesRE = /\s{2,}/g
+
+const trimSpaces = (val: string) => val
+  .replace(removeLinesRE, '')
+  .replace(reduceSpacesRE, ' ')
+  .trim()
 
 export const variantwind = (className: string) => {
-  let plainClasses = className
-    .replace(/\r?\n|\r/g, "")
-    .replace(/\s/g, " ")
-    .trim();
+  let plainClasses = trimSpaces(className)
 
   // Array of blocks, e.g. ["lg:{bg-red-500 hover:bg-red-900}"]
-  const blocks = matchBlocks(plainClasses);
+  const blocks = matchBlocks(plainClasses)
 
-  if (!blocks) {
-    return plainClasses;
+  if (!blocks)
+    return plainClasses
+
+  const processedClasses: string[] = []
+
+  for (const block of blocks) {
+    // Remove blocks from className
+    plainClasses = plainClasses.replace(block, '').trim()
+
+    // Split variant and classes of block
+    const [variant, classes] = block.split(/{(.+)}/)
+
+    const withVariants = classes
+      .split(' ')
+      .map(val => variant + val)
+      .join(' ')
+
+    processedClasses.push(withVariants)
   }
 
-  const processedClasses = blocks
-    .map((block) => {
-      plainClasses = plainClasses.replace(block, "").trim();
-      const [variant, classes] = block.split(/{(.+)}/);
-
-      const withVariants = classes.split(" ").map((val) => variant + val);
-      return withVariants.join(" ");
-    })
-    .join(" ");
-  return plainClasses + " " + processedClasses;
-};
+  return `${plainClasses} ${processedClasses.join(' ')}`
+}
 
 const cache = new Map();
 
