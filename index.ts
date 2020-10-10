@@ -9,7 +9,7 @@ const removeLinesRE = /\r?\n|\r/g
 const reduceSpacesRE = /\s{2,}/g
 
 const trimSpaces = (val: string) => val
-  .replace(removeLinesRE, '')
+  .replace(removeLinesRE, ' ')
   .replace(reduceSpacesRE, ' ')
   .trim()
 
@@ -32,6 +32,7 @@ export const variantwind = (className: string) => {
     const [variant, classes] = block.split(/{(.+)}/)
 
     const withVariants = classes
+      .trim()
       .split(' ')
       .map(val => variant + val)
       .join(' ')
