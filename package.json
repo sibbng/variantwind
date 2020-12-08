@@ -2,12 +2,12 @@
   "name": "variantwind",
   "version": "0.12.1",
   "description": "Tailwind Variant Directive for Vue",
-  "repository": "github:sibbngheid/variantwind",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "repository": "github:sibbng/variantwind",
+  "main": "dist/module.js",
+  "module": "dist/module.mjs",
   "browser": "dist/index.global.js",
-  "types": "dist/index.d.ts",
-  "author": "sibbngheid",
+  "types": "dist/module.d.ts",
+  "author": "sibbng",
   "license": "MIT",
   "keywords": [
     "variantwind",
@@ -19,14 +19,15 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsup index.ts --dts --format cjs,esm,iife --watch",
-    "build": "tsup index.ts --dts --format cjs,esm,iife"
+    "dev": "tsup module.ts --dts --format cjs,esm,iife --watch",
+    "build": "yarn run build:browser && yarn run build:module",
+    "build:browser": "tsup index.ts --format iife",
+    "build:module": "tsup module.ts --dts --format cjs,esm"
   },
   "devDependencies": {
-    "mem": "^6.1.0",
-    "tsup": "^3.4.2",
-    "typescript": "^3.9.7",
-    "vue": "^3.0.0-rc.5",
+    "tsup": "^3.10.1",
+    "typescript": "^4",
+    "vue": "^3",
     "vue2": "npm:vue@2"
   }
 }

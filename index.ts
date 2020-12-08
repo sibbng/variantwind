@@ -100,51 +100,14 @@ export const directive2: DirectiveOptions = {
   update: process,
 };
 
-export const extractor = (content: string) => {
-  const match = variantwind(content);
-  const extract = match !== content ? match.split(" ") : [];
+const isVue2 = (app: App | VueConstructor): app is VueConstructor => 
+  !!(app.version && app.version[0] === "2");
 
-  let directivishClasses: string[] = [];
-  const matchEveryDirective =
-    content.match(/(v-.+)=["'`](.+|[\s\S]+?)["'`]/g) || [];
-  matchEveryDirective.map((val) => {
-    const splitDirectiveNameAndWords = val.match(
-      /([^'"\s&\=](\w|-)[^'"\s&\=]*)/g
-    );
-    if (splitDirectiveNameAndWords) {
-      const [directive, ...classes] = splitDirectiveNameAndWords;
-      const dottyDirective = directive.match(/\..+/);
-      if (dottyDirective) {
-        const variant = dottyDirective[0]
-          .substr(1)
-          .split(".")
-          .map((val) => val + ":")
-          .join("");
-        classes.map((val) => {
-          directivishClasses.push(variant + val);
-        });
-      }
-    }
-  });
-
-  // Capture as liberally as possible, including things like `h-(screen-1.5)`
-  const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
-
-  // Capture classes within other delimiters like .block(class="w-1/2") in Pug
-  const innerMatches =
-    content.match(/[^<>"'`\s.(){}[\]#=%]*[^<>"'`\s.(){}[\]#=%:]/g) || [];
-
-  return broadMatches.concat(innerMatches, extract, directivishClasses);
-};
-
-const isVue3 = (app: App | VueConstructor): app is App =>
-  app.version[0] === "3";
-
-const Plugin = (
+export const Plugin = (
   app: App | VueConstructor,
   directives: string | string[] = "variantwind"
 ) => {
-  if (isVue3(app)) {
+  if (!isVue2(app)) {
     if (Array.isArray(directives)) {
       directives.map((name) => {
         app.directive(name, directive);

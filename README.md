@@ -1,6 +1,6 @@
 <p align='center'>
 <img src="./variantwind.svg">
-<img src="https://raw.githubusercontent.com/sibbngheid/variantwind/master/carbon.svg">
+<img src="https://raw.githubusercontent.com/sibbng/variantwind/master/carbon.svg">
 </p>
 <h1 align='center'>
 <center><samp>variantwind</samp></center>
@@ -9,7 +9,7 @@
 <p align='center'>
 <a href="https://www.npmjs.com/package/variantwind" target="__blank"><img src="https://badgen.net/npm/v/variantwind"></a>
 <a href="https://www.npmjs.com/package/variantwind" target="__blank"><img src="https://badgen.net/npm/dt/variantwind"></a>
-<a href="https://github.com/sibbngheid/variantwind" target="__blank"><img src="https://badgen.net/bundlephobia/minzip/variantwind"></a>
+<a href="https://github.com/sibbng/variantwind" target="__blank"><img src="https://badgen.net/bundlephobia/minzip/variantwind"></a>
 </p>
 
 <p align='center'>
@@ -131,4 +131,4 @@ module.exports = {
 
 ### License
 
-[MIT License](https://github.com/sibbngheid/variantwind/blob/master/LICENSE) © 2020 [Sibbngheid](https://github.com/sibbngheid)
+[MIT License](https://github.com/sibbng/variantwind/blob/master/LICENSE) © 2020 [sibbng](https://github.com/sibbng)
